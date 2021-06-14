@@ -49,8 +49,8 @@ object Schema {
   }
 
   private def postProcessConstraints[R](constraints: Vector[Constraint[Schema[R]]]): Vector[Constraint[Schema[R]]] = {
-    val encoding: Option[Encoding] = constraints.collectFirst {
-      case Constraint.ContentEncoding(value) => value
+    val encoding: Option[Encoding] = constraints.collectFirst { case Constraint.ContentEncoding(value) =>
+      value
     }
 
     val newConstraints = encoding match {
@@ -70,8 +70,8 @@ object Schema {
     val constraintsWithAdditionalItems = if (additionalItemsIndex == -1) {
       newConstraints
     } else {
-      val itemsTupleSize = newConstraints.collectFirst {
-        case Constraint.ItemsTuple(schemas) => schemas.size
+      val itemsTupleSize = newConstraints.collectFirst { case Constraint.ItemsTuple(schemas) =>
+        schemas.size
       }
 
       itemsTupleSize match {
@@ -94,12 +94,12 @@ object Schema {
     if (additionalPropertiesIndex == -1) {
       constraintsWithAdditionalItems
     } else {
-      val maybeKnownNames = constraintsWithAdditionalItems.collectFirst {
-        case Constraint.Properties(values) => values.map(_.name).toSet
+      val maybeKnownNames = constraintsWithAdditionalItems.collectFirst { case Constraint.Properties(values) =>
+        values.map(_.name).toSet
       }
 
-      val maybePatterns = constraintsWithAdditionalItems.collectFirst {
-        case Constraint.PatternProperties(values) => values.map(_._1).toSet
+      val maybePatterns = constraintsWithAdditionalItems.collectFirst { case Constraint.PatternProperties(values) =>
+        values.map(_._1).toSet
       }
 
       if (maybeKnownNames.isEmpty && maybePatterns.isEmpty) {
@@ -120,19 +120,18 @@ object Schema {
   private val decodeBooleanSchema: Decoder[Schema[URI]] =
     Decoder[Boolean].map(value => if (value) AcceptAll else RejectAll)
 
-  private val decodeRef: Decoder[Schema[URI]] = Decoder[HCursor].product(Decoder[String].at("$ref")).emap {
-    case (cursor, value) =>
+  private val decodeRef: Decoder[Schema[URI]] =
+    Decoder[HCursor].product(Decoder[String].at("$ref")).emap { case (cursor, value) =>
       try {
         Right(Ref(cursor, new URI(value)): Schema[URI])
       } catch {
         case e: URISyntaxException => Left(e.getReason)
       }
-  }
+    }
 
   private lazy val decodeConstraints: Decoder[Schema[URI]] =
-    Decoder[Metadata].product(Constraint.decodeConstraints).map {
-      case (metadata, constraints) =>
-        Constraints(metadata, postProcessConstraints(constraints))
+    Decoder[Metadata].product(Constraint.decodeConstraints).map { case (metadata, constraints) =>
+      Constraints(metadata, postProcessConstraints(constraints))
     }
 
   implicit lazy val decodeSchema: Decoder[Schema[URI]] = decodeRef.or(decodeConstraints).or(decodeBooleanSchema)

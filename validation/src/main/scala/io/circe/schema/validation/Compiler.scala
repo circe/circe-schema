@@ -126,8 +126,8 @@ object Compiler {
     private[this] val compiled: Vector[(Schema.Resolved, Validator)] = schemas.map(schema => (schema, compiler(schema)))
 
     def apply(c: HCursor): Vector[ValidationError] = {
-      val results = compiled.map {
-        case (schema, validator) => (schema, validator(c))
+      val results = compiled.map { case (schema, validator) =>
+        (schema, validator(c))
       }
 
       if (results.exists(_._2.isEmpty)) {
@@ -142,8 +142,8 @@ object Compiler {
     private[this] val compiled: Vector[(Schema.Resolved, Validator)] = schemas.map(schema => (schema, compiler(schema)))
 
     def apply(c: HCursor): Vector[ValidationError] = {
-      val results = compiled.map {
-        case (schema, validator) => (schema, validator(c))
+      val results = compiled.map { case (schema, validator) =>
+        (schema, validator(c))
       }
 
       if (results.count(_._2.isEmpty) == 1) {
@@ -351,13 +351,12 @@ object Compiler {
 
     final def apply(c: HCursor): Vector[ValidationError] = c.values match {
       case Some(valuesIterable) =>
-        compiledWithIndices.flatMap {
-          case (validator, n) =>
-            val ac = c.downN(n)
-            ac.success match {
-              case None     => Vector.empty
-              case Some(cc) => validator(cc)
-            }
+        compiledWithIndices.flatMap { case (validator, n) =>
+          val ac = c.downN(n)
+          ac.success match {
+            case None     => Vector.empty
+            case Some(cc) => validator(cc)
+          }
         }
       case None => Vector.empty
     }
@@ -365,8 +364,8 @@ object Compiler {
 
   private final class PropertiesValidator(values: Vector[Property[Schema.Resolved]], compiler: Compiler)
       extends Validator {
-    private[this] val compiled: Map[String, Validator] = values.map {
-      case Property(name, schema) => (name, compiler(schema))
+    private[this] val compiled: Map[String, Validator] = values.map { case Property(name, schema) =>
+      (name, compiler(schema))
     }.toMap
 
     final def apply(c: HCursor): Vector[ValidationError] = c.keys match {
@@ -438,16 +437,15 @@ object Compiler {
     final def apply(c: HCursor): Vector[ValidationError] = c.keys match {
       case Some(keys) =>
         keys.flatMap { key =>
-          compiled.flatMap {
-            case (pattern, validator) =>
-              if (pattern.matcher(key).find) {
-                c.downField(key).success match {
-                  case Some(cc) => validator(cc)
-                  case None     => Vector.empty
-                }
-              } else {
-                Vector.empty
+          compiled.flatMap { case (pattern, validator) =>
+            if (pattern.matcher(key).find) {
+              c.downField(key).success match {
+                case Some(cc) => validator(cc)
+                case None     => Vector.empty
               }
+            } else {
+              Vector.empty
+            }
           }
         }.toVector
       case None => Vector.empty
