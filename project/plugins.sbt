@@ -1,4 +1,4 @@
-addSbtPlugin("com.codecommit" % "sbt-github-actions" % "0.9.5")
+addSbtPlugin("com.codecommit" % "sbt-github-actions" % "0.12.0")
 addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.4.6")
 addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.3")
 addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.13")
