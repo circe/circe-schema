@@ -271,15 +271,14 @@ object Constraint {
               .traverse(key => decoders(key).tryDecodeAccumulating(c.downField(key)))
         }
     }.flatMap { constraints =>
-      val maybeIfSchema = constraints.collectFirst {
-        case Conditional(ifSchema, None, None) => ifSchema
+      val maybeIfSchema = constraints.collectFirst { case Conditional(ifSchema, None, None) =>
+        ifSchema
       }
 
       maybeIfSchema match {
         case Some(ifSchema) =>
-          decodeThenSchema.product(decodeElseSchema).map {
-            case (thenSchema, elseSchema) =>
-              constraints :+ Conditional(ifSchema, thenSchema, elseSchema)
+          decodeThenSchema.product(decodeElseSchema).map { case (thenSchema, elseSchema) =>
+            constraints :+ Conditional(ifSchema, thenSchema, elseSchema)
           }
         case None => Decoder.const(constraints)
       }
