@@ -35,29 +35,26 @@ abstract class TestSuiteTests(path: String, config: Configuration = Configuratio
   }
 
   val deduplicated = tests
-    .foldLeft((Set.empty[String], List.empty[SchemaTest])) {
-      case ((seen, res), c @ SchemaTest(description, _, _)) =>
-        (seen + description, if (seen(description)) res else c :: res)
+    .foldLeft((Set.empty[String], List.empty[SchemaTest])) { case ((seen, res), c @ SchemaTest(description, _, _)) =>
+      (seen + description, if (seen(description)) res else c :: res)
     }
     ._2
     .reverse
 
-  deduplicated.foreach {
-    case SchemaTest(description, schema, tests) =>
-      tests.foreach {
-        case SchemaTestCase(caseDescription, data, valid) =>
-          val expected = if (valid) "validate successfully" else "fail to validate"
-          test(s"$description: $caseDescription should $expected") {
-            val Right(resolvedSchema) = Resolver.local(schema).runA(Map.empty)
-            val errors = compiler(resolvedSchema.value)(data.hcursor)
+  deduplicated.foreach { case SchemaTest(description, schema, tests) =>
+    tests.foreach { case SchemaTestCase(caseDescription, data, valid) =>
+      val expected = if (valid) "validate successfully" else "fail to validate"
+      test(s"$description: $caseDescription should $expected") {
+        val Right(resolvedSchema) = Resolver.local(schema).runA(Map.empty)
+        val errors = compiler(resolvedSchema.value)(data.hcursor)
 
-            if (valid) {
-              assert(errors.isEmpty)
-            } else {
-              assert(errors.nonEmpty)
-            }
-          }
+        if (valid) {
+          assert(errors.isEmpty)
+        } else {
+          assert(errors.nonEmpty)
+        }
       }
+    }
   }
 }
 

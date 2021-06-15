@@ -33,8 +33,8 @@ githubWorkflowBuild in ThisBuild := Seq(
   )
 )
 
-val catsVersion = "2.3.0"
-val circeVersion = "0.14.0-M3"
+val catsVersion = "2.3.1"
+val circeVersion = "0.14.1"
 val scalaMetaVersion = "4.4.2"
 
 val commonSettings = Seq(
@@ -42,7 +42,7 @@ val commonSettings = Seq(
     "io.circe" %% "circe-jawn" % circeVersion % Test,
     "io.circe" %% "circe-generic" % circeVersion % Test,
     "io.circe" %% "circe-literal" % circeVersion % Test,
-    "org.scalameta" %% "munit-scalacheck" % "0.7.20" % Test
+    "org.scalameta" %% "munit-scalacheck" % "0.7.26" % Test
   ),
   scalacOptions ++= Seq("-target:jvm-1.8", "-Ywarn-unused:imports") ++ {
     CrossVersion.partialVersion(scalaVersion.value) match {
@@ -51,7 +51,7 @@ val commonSettings = Seq(
     }
   },
   testFrameworks += new TestFramework("munit.Framework"),
-  addCompilerPlugin(("org.typelevel" %% "kind-projector" % "0.11.2").cross(CrossVersion.full))
+  addCompilerPlugin(("org.typelevel" %% "kind-projector" % "0.11.3").cross(CrossVersion.full))
 )
 
 lazy val root =
