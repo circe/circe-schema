@@ -1,18 +1,18 @@
-organization in ThisBuild := "io.circe"
+ThisBuild / organization := "io.circe"
 
-crossScalaVersions in ThisBuild := Seq("2.12.12", "2.13.4")
-scalaVersion in ThisBuild := crossScalaVersions.value.last
+ThisBuild / crossScalaVersions := Seq("2.12.14", "2.13.6")
+ThisBuild / scalaVersion := crossScalaVersions.value.last
 
-githubWorkflowJavaVersions in ThisBuild := Seq("adopt@1.8")
-githubWorkflowPublishTargetBranches in ThisBuild := Nil
-githubWorkflowJobSetup in ThisBuild := {
-  githubWorkflowJobSetup.in(ThisBuild).value.toList.map {
-    case step @ WorkflowStep.Use("actions", "checkout", "v2", _, _, _, _, _) =>
+ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8")
+ThisBuild / githubWorkflowPublishTargetBranches := Nil
+ThisBuild / githubWorkflowJobSetup := {
+  (ThisBuild / githubWorkflowJobSetup).value.toList.map {
+    case step @ WorkflowStep.Use(UseRef.Public("actions", "checkout", "v2"), _, _, _, _, _) =>
       step.copy(params = step.params.updated("submodules", "recursive"))
     case other => other
   }
 }
-githubWorkflowBuild in ThisBuild := Seq(
+ThisBuild / githubWorkflowBuild := Seq(
   WorkflowStep.Sbt(
     List(
       "clean",
@@ -27,9 +27,11 @@ githubWorkflowBuild in ThisBuild := Seq(
     name = Some("Test")
   ),
   WorkflowStep.Use(
-    "codecov",
-    "codecov-action",
-    "v1"
+    UseRef.Public(
+      "codecov",
+      "codecov-action",
+      "v1"
+    )
   )
 )
 
