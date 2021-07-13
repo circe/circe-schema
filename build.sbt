@@ -37,7 +37,7 @@ ThisBuild / githubWorkflowBuild := Seq(
 
 val catsVersion = "2.6.1"
 val circeVersion = "0.14.1"
-val scalaMetaVersion = "4.4.23"
+val scalaMetaVersion = "4.4.24"
 
 val commonSettings = Seq(
   libraryDependencies ++= Seq(
