@@ -102,8 +102,8 @@ case class StringConstraintError(
     case io.circe.schema.Constraint.Format(format)                 => s"Expected ${format.name} string, got ${value}"
     case io.circe.schema.Constraint.ContentMediaType(mediaType, _) => s"Expected ${mediaType} string, got ${value}"
     case io.circe.schema.Constraint.ContentEncoding(encoding)      => s"Expected ${encoding.name} string, got ${value}"
-    case io.circe.schema.Constraint.MinLength(n)                   => s"Expected string with length >= ${n}, got ${value}"
-    case io.circe.schema.Constraint.MaxLength(n)                   => s"Expected string with length <= ${n}, got ${value}"
+    case io.circe.schema.Constraint.MinLength(n) => s"Expected string with length >= ${n}, got ${value}"
+    case io.circe.schema.Constraint.MaxLength(n) => s"Expected string with length <= ${n}, got ${value}"
   }
 }
 
