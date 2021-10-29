@@ -77,7 +77,7 @@ object Resolver {
                   .flatMap { hc =>
                     Decoder[Schema[URI]].apply(hc) match {
                       case Right(schema) =>
-                        //this(schema).flatMap {
+                        // this(schema).flatMap {
                         //  case Schema.RejectAll          => F.pure(Schema.RejectAll)
                         //  case Schema.AcceptAll          => F.pure(Schema.AcceptAll)
 
