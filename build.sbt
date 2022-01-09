@@ -1,6 +1,6 @@
 ThisBuild / organization := "io.circe"
 
-ThisBuild / crossScalaVersions := Seq("2.12.14", "2.13.6")
+ThisBuild / crossScalaVersions := Seq("2.12.15", "2.13.6")
 ThisBuild / scalaVersion := crossScalaVersions.value.last
 
 ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8")
