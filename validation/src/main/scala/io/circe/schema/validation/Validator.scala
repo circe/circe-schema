@@ -2,7 +2,7 @@ package io.circe.schema.validation
 
 import io.circe.{HCursor, Json}
 
-trait Validator extends (HCursor => Vector[ValidationError]) {
+trait Validator extends HCursor => Vector[ValidationError] {
   final def isValid(value: Json): Boolean = apply(value.hcursor).isEmpty
 }
 

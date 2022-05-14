@@ -7,7 +7,7 @@ trait MediaTypeValidator {
 }
 
 object MediaTypeValidator {
-  val default: MediaTypeValidator = new DefaultMediaTypeValidator()
+  val default: MediaTypeValidator = new DefaultMediaTypeValidator
 
   private class DefaultMediaTypeValidator extends MediaTypeValidator {
     final def isValid(mediaType: String, input: String): Boolean = mediaType match {

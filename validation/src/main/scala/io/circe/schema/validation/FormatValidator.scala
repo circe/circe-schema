@@ -11,7 +11,7 @@ trait FormatValidator {
 }
 
 object FormatValidator {
-  val default: FormatValidator = new DefaultFormatValidator()
+  val default: FormatValidator = new DefaultFormatValidator
 
   private val emailPattern: Pattern = Pattern.compile(
     """|\A[a-z0-9!#$%&'*+/=?^_‘{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_‘{|}~-]+)*

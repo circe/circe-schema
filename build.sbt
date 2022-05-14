@@ -48,8 +48,8 @@ val commonSettings = Seq(
   ),
   scalacOptions ++= Seq("-target:jvm-1.8", "-Ywarn-unused:imports") ++ {
     CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, n)) if n >= 13 => Seq("-Ymacro-annotations")
-      case _                       => Seq("-Ypartial-unification")
+      case Some(2, n) if n >= 13 => Seq("-Ymacro-annotations")
+      case _                     => Seq("-Ypartial-unification")
     }
   },
   testFrameworks += new TestFramework("munit.Framework"),

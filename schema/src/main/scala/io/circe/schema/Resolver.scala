@@ -8,8 +8,7 @@ import io.circe.{Decoder, DecodingFailure, HCursor}
 import io.circe.pointer.{Pointer, PointerFailure, PointerSyntaxError}
 import java.net.URI
 
-abstract class Resolver[F[_], R](implicit private val F: Applicative[F])
-    extends (Schema[R] => F[Eval[Schema[Nothing]]]) {
+abstract class Resolver[F[_], R](implicit private val F: Applicative[F]) extends Schema[R] => F[Eval[Schema[Nothing]]] {
   protected[this] def resolve(cursor: HCursor, uri: R): F[Eval[Schema.Resolved]]
 
   final def apply(schema: Schema[R]): F[Eval[Schema[Nothing]]] = schema match {

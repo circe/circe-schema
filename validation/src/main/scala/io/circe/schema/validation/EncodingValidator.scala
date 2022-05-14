@@ -10,7 +10,7 @@ trait EncodingValidator {
 }
 
 object EncodingValidator {
-  val default: EncodingValidator = new DefaultEncodingValidator()
+  val default: EncodingValidator = new DefaultEncodingValidator
 
   private class DefaultEncodingValidator extends EncodingValidator {
     final def isValid(encoding: Encoding, input: String): Boolean = encoding match {
