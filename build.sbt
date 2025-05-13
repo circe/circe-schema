@@ -44,7 +44,7 @@ val commonSettings = Seq(
     "io.circe" %% "circe-jawn" % circeVersion % Test,
     "io.circe" %% "circe-generic" % circeVersion % Test,
     "io.circe" %% "circe-literal" % circeVersion % Test,
-    "org.scalameta" %% "munit-scalacheck" % "0.7.29" % Test
+    "org.scalameta" %% "munit-scalacheck" % "1.1.0" % Test
   ),
   scalacOptions ++= Seq("-target:jvm-1.8", "-Ywarn-unused:imports") ++ {
     CrossVersion.partialVersion(scalaVersion.value) match {
