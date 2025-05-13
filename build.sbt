@@ -35,7 +35,7 @@ ThisBuild / githubWorkflowBuild := Seq(
   )
 )
 
-val catsVersion = "2.7.0"
+val catsVersion = "2.13.0"
 val circeVersion = "0.14.1"
 val scalaMetaVersion = "4.5.1"
 
@@ -53,7 +53,7 @@ val commonSettings = Seq(
     }
   },
   testFrameworks += new TestFramework("munit.Framework"),
-  addCompilerPlugin(("org.typelevel" %% "kind-projector" % "0.13.2").cross(CrossVersion.full))
+  addCompilerPlugin(("org.typelevel" %% "kind-projector" % "0.13.3").cross(CrossVersion.full))
 )
 
 lazy val root =
